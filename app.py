@@ -174,20 +174,28 @@ def llm(prompt):
 def actuarial_agent(q):
 
     if "IRR" in q:
-        return "IRR是内部收益率，用于衡量保险现金流回报。"
+        return "IRR是内部收益率，用于衡量保险产品现金流回报。"
 
     if "死亡率" in q:
         return lee_carter_forecast()
 
-    if "IFRS" in q:
+    prompt = f"""
+你是一名寿险精算师（Life Actuary）。
 
-        prompt = f"""
-你是保险精算专家，请解释以下IFRS17问题：
+你的工作包括：
+- 保险产品定价
+- IFRS17财务评估
+- Profit Testing
+- 死亡率模型
+- 风险管理
 
+请用精算师视角回答问题。
+
+问题：
 {q}
 """
 
-        return llm(prompt)
+    return llm(prompt)
 
     return llm(q)
 
