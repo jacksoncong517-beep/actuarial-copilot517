@@ -1,0 +1,11 @@
+gradio
+transformers
+sentence-transformers
+faiss-cpu
+pdfplumber
+pandas
+numpy
+scipy
+numpy-financial
+torch
+matplotlib
