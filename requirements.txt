@@ -1,7 +1,6 @@
 gradio
-openai
-pdfplumber
-pandas
 numpy
-scipy
+pandas
+pdfplumber
 numpy-financial
+openai
