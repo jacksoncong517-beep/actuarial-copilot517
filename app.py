@@ -8,13 +8,12 @@ from openai import OpenAI
 client = OpenAI(
     api_key=os.getenv("OPENAI_API_KEY")
 )
-import faiss
+from openai import OpenAI
 import numpy as np
 import pandas as pd
 import pdfplumber
 import re
 import gradio as gr
-
 
 from numpy_financial import irr
 from numpy.linalg import svd
