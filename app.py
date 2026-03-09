@@ -2,10 +2,10 @@
 # Actuarial Copilot Pro
 # IFRS17 + Mortality + Pricing + IRR + LeeCarter
 # ==========================================
-
-!pip -q install gradio transformers sentence-transformers faiss-cpu pdfplumber pandas numpy scipy
-!pip install numpy-financial
-import torch
+from openai import OpenAI
+client = OpenAI(
+    api_key="sk-xxxxx"
+)
 import faiss
 import numpy as np
 import pandas as pd
@@ -13,33 +13,17 @@ import pdfplumber
 import re
 import gradio as gr
 
-from transformers import AutoTokenizer, AutoModelForCausalLM
+
 from sentence_transformers import SentenceTransformer
 from numpy_financial import irr
 from numpy.linalg import svd
 
 
 # ==========================================
-# 1 LLM
-# ==========================================
-
-model_name = "Qwen/Qwen3-1.7B"
-
-tokenizer = AutoTokenizer.from_pretrained(model_name,trust_remote_code=True)
-
-model = AutoModelForCausalLM.from_pretrained(
-    model_name,
-    device_map="auto",
-    torch_dtype=torch.float16,
-    trust_remote_code=True
-)
-
-
-# ==========================================
 # 2 IFRS17 RAG
 # ==========================================
 
-pdf_path = "/content/ifrs-17-insurance-contracts.pdf"
+pdf_path = "data/ifrs-17-insurance-contracts.pdf"
 
 texts=[]
 
@@ -74,7 +58,7 @@ def rag_search(q,k=3):
 # 3 生命表
 # ==========================================
 
-life_pdf="/content/shengmingbiao.pdf"
+life_pdf="data/shengmingbiao.pdf"
 
 mortality={}
 
@@ -196,12 +180,14 @@ def lee_carter_forecast():
 
 def llm(prompt):
 
-    inputs=tokenizer(prompt,return_tensors="pt").to(model.device)
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "user", "content": prompt}
+        ]
+    )
 
-    outputs=model.generate(**inputs,max_new_tokens=200)
-
-    return tokenizer.decode(outputs[0],skip_special_tokens=True)
-
+    return response.choices[0].message.content
 
 # ==========================================
 # 7 Agent
