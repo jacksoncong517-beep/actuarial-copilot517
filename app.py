@@ -2,9 +2,11 @@
 # Actuarial Copilot Pro
 # IFRS17 + Mortality + Pricing + IRR + LeeCarter
 # ==========================================
+import os
 from openai import OpenAI
+
 client = OpenAI(
-    api_key="sk-xxxxx"
+    api_key=os.getenv("OPENAI_API_KEY")
 )
 import faiss
 import numpy as np
