@@ -16,7 +16,6 @@ import re
 import gradio as gr
 
 
-from sentence_transformers import SentenceTransformer
 from numpy_financial import irr
 from numpy.linalg import svd
 
@@ -34,18 +33,6 @@ with pdfplumber.open(pdf_path) as pdf:
         t=page.extract_text()
         if t:
             texts.append(t)
-
-embed_model=SentenceTransformer("all-MiniLM-L6-v2")
-
-chunks=[]
-for t in texts:
-    for i in range(0,len(t),500):
-        chunks.append(t[i:i+500])
-
-embeddings=embed_model.encode(chunks)
-
-index=faiss.IndexFlatL2(embeddings.shape[1])
-index.add(np.array(embeddings))
 
 
 def rag_search(q,k=3):
