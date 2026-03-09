@@ -46,7 +46,24 @@ except:
     for a in range(20,100):
         mortality[a] = 0.002
 
+# ==========================================
+# IFRS17 读取
+# ==========================================
 
+ifrs_pdf = "ifrs-17-insurance-contracts.pdf"
+
+ifrs_text = ""
+
+try:
+    with pdfplumber.open(ifrs_pdf) as pdf:
+        for page in pdf.pages:
+            txt = page.extract_text()
+            if txt:
+                ifrs_text += txt
+
+except:
+    ifrs_text = ""
+    
 # ==========================================
 # 精算计算模块
 # ==========================================
@@ -170,16 +187,17 @@ def llm(prompt):
 # ==========================================
 # AI Agent
 # ==========================================
-
 def actuarial_agent(q):
 
     if "IRR" in q:
-        return "IRR是内部收益率，用于衡量保险产品现金流回报。"
+        return "IRR是保险现金流内部收益率"
 
     if "死亡率" in q:
         return lee_carter_forecast()
 
-    prompt = f"""
+    if "IFRS" in q or "CSM" in q:
+
+        prompt = f"""
 你是一名寿险精算师（Life Actuary）。
 
 你的工作包括：
@@ -191,12 +209,15 @@ def actuarial_agent(q):
 
 请用精算师视角回答问题。
 
+以下是 IFRS17 文档部分内容：
+
+{ifrs_text[:4000]}
+
 问题：
 {q}
 """
 
-    return llm(prompt)
-
+        return llm(prompt)
     return llm(q)
 
 
