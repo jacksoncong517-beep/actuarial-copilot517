@@ -23,7 +23,7 @@ from numpy.linalg import svd
 # 2 IFRS17 RAG
 # ==========================================
 
-pdf_path = "data/ifrs-17-insurance-contracts.pdf"
+pdf_path = "ifrs-17-insurance-contracts.pdf"
 
 texts=[]
 
@@ -58,7 +58,7 @@ def rag_search(q,k=3):
 # 3 生命表
 # ==========================================
 
-life_pdf="data/shengmingbiao.pdf"
+life_pdf="shengmingbiao.pdf"
 
 mortality={}
 
