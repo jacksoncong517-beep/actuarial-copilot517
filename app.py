@@ -13,15 +13,10 @@ import gradio as gr
 from numpy_financial import irr
 from numpy.linalg import svd
 
-from openai import OpenAI
+from groq import Groq
 
-
-# ==========================================
-# OpenAI
-# ==========================================
-
-client = OpenAI(
-    api_key=os.getenv("OPENAI_API_KEY")
+client = Groq(
+    api_key=os.getenv("GROQ_API_KEY")
 )
 
 
