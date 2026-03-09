@@ -1,11 +1,9 @@
 gradio
-transformers
-sentence-transformers
-faiss-cpu
+openai
 pdfplumber
 pandas
 numpy
 scipy
+faiss-cpu
+sentence-transformers
 numpy-financial
-torch
-matplotlib
